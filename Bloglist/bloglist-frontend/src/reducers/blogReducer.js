@@ -27,9 +27,6 @@ const blogReducer = (state = [], action) => {
   case 'REMOVE':
     return state = state.filter(blog => blog.id !== action.data)
 
-
-
-
        // no default
   }
 

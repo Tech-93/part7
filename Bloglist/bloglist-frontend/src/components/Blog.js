@@ -4,13 +4,12 @@ import { Table } from 'semantic-ui-react'
 
 
 
-const Blog = ( { blog, emptyComments, setLimiter } ) => {
+const Blog = ( { blog, emptyComments } ) => {
 
 
 
   const clickHandler = () => {
     emptyComments()
-    setLimiter(true)
   }
 
   return (

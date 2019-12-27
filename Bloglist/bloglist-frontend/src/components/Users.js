@@ -11,7 +11,7 @@ const Users = (props) => {
   const Render = ( { user }) => {
     return (
       <Table.Row key={user.id}>
-        <Table.Cell> <Link to={`/users/${user.id}`}  > {user.name} </Link> </Table.Cell>
+        <Table.Cell> <Link data-cy="link" to={`/users/${user.id}`}  > {user.name} </Link> </Table.Cell>
         <Table.Cell> {user.blogs.length} </Table.Cell>
       </Table.Row>
     )

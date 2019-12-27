@@ -14,10 +14,11 @@ const Blogs = (props) => {
 
 
   const renderBlogs = () => (
+
     <Table striped celled>
       <Table.Body>
         {props.blogs.map(blog =>
-          <Blog key={blog.id} blog = {blog} emptyComments={props.emptyComments} setLimiter={props.setLimiter}  />
+          <Blog key={blog.id} blog = {blog} emptyComments={props.emptyComments}  />
         )}
       </Table.Body>
     </Table>
@@ -39,8 +40,9 @@ const Blogs = (props) => {
         <BlogForm />
         <Button onClick={() => setBlogFormVisible(false)}>cancel </Button>
       </div>
-
+      
       {renderBlogs()}
+
     </div>
   )
 }

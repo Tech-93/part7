@@ -1,28 +1,23 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Like, Remove } from '../reducers/blogReducer'
-import {
-  BrowserRouter as Router,
-  Route, Redirect,
-} from 'react-router-dom'
-
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import Header from './Header'
 import Blogs from './Blogs'
 import BlogFullInfo from './BlogFullInfo'
 import Users from './Users'
-
+import { Like, Remove } from '../reducers/blogReducer'
 import { emptyComments } from '../reducers/commentReducer'
+import { reInitializeUsers } from '../reducers/allUsersReducer'
 
 
 
 
-const LoggedInPage = ({ blogs, Like, Remove, user, users, emptyComments }) => {
+
+const LoggedInPage = ({ blogs, Like, Remove, user, users, emptyComments, reInitializeUsers }) => {
 
   const [redirecter, setRedirecter] = useState(false)
   const [limiter, setLimiter] = useState(false)
 
-
-  
 
 
   const blogById = (id) => blogs.find(b => b.id === id)
@@ -34,7 +29,6 @@ const LoggedInPage = ({ blogs, Like, Remove, user, users, emptyComments }) => {
   }
 
   const handleRemove = id => {
-
     const blog = blogs.find(blog => blog.id === id)
     if(user.username === blog.user.username){
       var conf = window.confirm('remove ' + blog.title + '' + blog.author)
@@ -44,29 +38,23 @@ const LoggedInPage = ({ blogs, Like, Remove, user, users, emptyComments }) => {
 
         setTimeout(() => {
           setRedirecter(false)
+          reInitializeUsers()
         }, 1000)
-
       }
     }
   }
 
 
-  console.log('HERE')
-  console.log(blogs)
-
   return (
     <div className="container" >
 
       <Router >
-
         <Header user={user}  />
-
         <Route exact path="/" render={() => <Blogs blogs={blogs} user={user} emptyComments={emptyComments} setLimiter = {setLimiter} />} />
         <Route path="/blogs/:id" render={({ match }) =>
-          !redirecter ? <BlogFullInfo blog={blogById(match.params.id)} handleLikes={handleLikes} user={user} handleRemove={handleRemove} limiter={limiter} setLimiter={setLimiter} />
+          !redirecter ? <BlogFullInfo blog={blogById(match.params.id)} handleLikes={handleLikes} user={user} handleRemove={handleRemove} />
             : <Redirect to="/" /> } />
         <Route path="/users" render={() =>  <Users users={users} /> } />
-
       </Router>
 
     </div>
@@ -101,10 +89,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   Like,
   Remove,
-  emptyComments
+  emptyComments,
+  reInitializeUsers
 }
 
 
 
 const connectedLoggedInPage = connect(mapStateToProps, mapDispatchToProps)(LoggedInPage)
+
 export default connectedLoggedInPage

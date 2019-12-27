@@ -1,13 +1,14 @@
 import React from 'react'
-import CommentForm from './CommentForm'
 import { connect } from 'react-redux'
+import { Button } from 'semantic-ui-react'
+import CommentForm from './CommentForm'
 import { initialComments, comment, emptyComments } from '../reducers/commentReducer'
 
-import { Button } from 'semantic-ui-react'
 
 
 
-const BlogFullInfo = ( { blog, handleLikes, user, handleRemove, comments, initialComments, limiter, setLimiter } ) => {
+
+const BlogFullInfo = ( { blog, handleLikes, user, handleRemove, comments, initialComments } ) => {
 
 
 
@@ -17,11 +18,8 @@ const BlogFullInfo = ( { blog, handleLikes, user, handleRemove, comments, initia
 
   if(comments.length === 0 && blog.comments.length !== 0) {
     initialComments(blog.id)
-    setLimiter(false)
   }
 
-
-  console.log(comments)
 
 
   const showRemoveButton = () => {
@@ -30,7 +28,6 @@ const BlogFullInfo = ( { blog, handleLikes, user, handleRemove, comments, initia
         <Button onClick={() => handleRemove(blog.id) }> remove </Button>
       )}
   }
-
 
 
 
@@ -44,8 +41,9 @@ const BlogFullInfo = ( { blog, handleLikes, user, handleRemove, comments, initia
 
     return comments.map(comment =>
       < Comment key={comment.id} comment = {comment} />)
-
   }
+
+
 
   const Comment = ( { comment } ) => {
     return (
@@ -61,10 +59,10 @@ const BlogFullInfo = ( { blog, handleLikes, user, handleRemove, comments, initia
     <div>
       <h2> {blog.title} {blog.author}  </h2>
       <div> <a href={`${blog.url}`} > {blog.url} </a>  </div>
-      <div> {blog.likes} likes <Button onClick={() => handleLikes(blog.id)} > like </Button> </div>
+      <div> {blog.likes} likes <Button data-cy="like" onClick={() => handleLikes(blog.id)} > like </Button> </div>
       <div> added by {blog.user.name} </div>
       {showRemoveButton()}
-      <CommentForm blog={blog} setLimiter={setLimiter}    />
+      <CommentForm blog={blog}    />
       {renderComment()}
 
 

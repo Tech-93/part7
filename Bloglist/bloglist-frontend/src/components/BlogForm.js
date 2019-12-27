@@ -1,11 +1,12 @@
 import React from 'react'
 import  { useField } from '../hooks'
+import { Form, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { setMessage } from '../reducers/notificationReducer'
 import { createBlog } from '../reducers/blogReducer'
+import { reInitializeUsers } from '../reducers/allUsersReducer'
 
-import { Form, Button } from 'react-bootstrap'
-// import { Button } from 'semantic-ui-react'
+
 
 
 
@@ -31,10 +32,13 @@ const BlogForm = (props) => {
     newTitle.reset()
     newAuthor.reset()
     newUrl.reset()
-
     props.setMessage (
       'a new blog ' + newTitle.value + ' by ' + newAuthor.value + ' added'
     )
+
+    setTimeout(() => {
+      props.reInitializeUsers()
+    }, 500)
 
 
   }
@@ -45,36 +49,26 @@ const BlogForm = (props) => {
       <Form onSubmit={addBlog}>
         <Form.Group>
           <Form.Label> title: </Form.Label>
-          <Form.Control type="text" {...newTitle.omitreset} />
+          <Form.Control id="title" type="text" {...newTitle.omitreset} />
           <Form.Label> author: </Form.Label>
-          <Form.Control type="text" {...newAuthor.omitreset} />
+          <Form.Control id="author" type="text" {...newAuthor.omitreset} />
           <Form.Label> url: </Form.Label>
-          <Form.Control type="text" {...newUrl.omitreset} />
-          <Button type="submit"> create </Button>
+          <Form.Control id="url" type="text" {...newUrl.omitreset} />
+          <Button data-cy="submit" type="submit"> create </Button>
         </Form.Group>
 
       </Form>
-
-
     </div>
   )
 }
 
 const mapDispatchToProps = {
   setMessage,
-  createBlog
+  createBlog,
+  reInitializeUsers
 }
 
 
 
 export default connect(null, mapDispatchToProps)(BlogForm)
 
-
-/*
-<form onSubmit={addBlog}>
-        <div> title: <input {...newTitle.omitreset} /> </div>
-        <div> author: <input {...newAuthor.omitreset} /> </div>
-        <div> url: <input { ...newUrl.omitreset} /> </div>
-        <Button type="submit"> create </Button>
-      </form>
-*/
